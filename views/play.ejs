@@ -6,7 +6,20 @@ Play
 <%- contentFor("body") %>
 
 <div id="main-box">
-    <h1>PLAY</h1>
+
+    <div id="choice-popup" class="popup">
+        <h2 class="mt-4">PLAY AS</h2>
+        <div id="popup-row">
+            <button id="choice-X" class="popup-choice">X</button>
+            <button id="choice-O" class="popup-choice">O</button>
+        </div>
+    </div>
+
+    <div id="restart-popup" class="popup restart">
+        <button id="restart">RESTART</button>
+    </div>
+
+    <h1 id="status-bar"><br></h1>
 
     <div id="box">
        

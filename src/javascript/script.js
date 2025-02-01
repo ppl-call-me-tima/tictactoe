@@ -1,8 +1,9 @@
 import { minimax, result, terminal, winner } from "./ttt.js";
 
 var turn = "X";
-var human = "X";  // should be able to choose
-var ai = "O";  // again: dependent on above choice
+var human = "X";
+var ai = "O";
+var midGame = false;
 
 var board = [
     ['', '', ''],
@@ -14,15 +15,8 @@ function sleep(timeout) {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-async function move(action) {
-    const ret = result(board, action);
-
-    if (ret === null) {
-        console.log("invalid move");
-        return;
-    }
-
-    board = ret;
+function move(action) {
+    board = result(board, action);
     updateBoard();
 }
 
@@ -35,6 +29,8 @@ function updateBoard() {
 }
 
 function resetBoard() {
+    turn = "X";
+
     board = [
         ['', '', ''],
         ['', '', ''],
@@ -51,10 +47,62 @@ function removeEvents() {
     }
 }
 
+function setStatusBar(status) {
+    document.getElementById("status-bar").innerText = status;
+}
+
+function removeChoiceEvents() {
+    document.getElementById("choice-X").onclick = null;
+    document.getElementById("choice-O").onclick = null;
+}
+
+async function acceptHumanChoice() {
+    document.getElementById("choice-popup").style.display = "flex";
+
+    const choiceX = document.getElementById("choice-X");
+    const choiceO = document.getElementById("choice-O");
+
+    await new Promise(resolve => {
+        choiceX.onclick = () => {
+            human = "X";
+            ai = "O";
+            removeChoiceEvents();
+            resolve();
+        };
+        choiceO.onclick = () => {
+            human = "O";
+            ai = "X";
+            removeChoiceEvents();
+            resolve();
+        }
+    });
+    document.getElementById("choice-popup").style.display = "none";
+}
+
+async function acceptRestart() {
+    document.getElementById("restart-popup").style.display = "flex";
+
+    await new Promise(resolve => {
+        document.getElementById("restart").onclick = () => {
+            resetBoard();
+            document.getElementById("restart").onclick = null;
+            resolve();
+        };
+    });
+    document.getElementById("restart-popup").style.display = "none";
+}
+
 async function gameLoop() {
-    while (!terminal(board)) {
-        console.log("game loop iteration");
+
+    while (true) {
+        if (!midGame) {
+            await acceptHumanChoice();
+            midGame = true;
+        }
+
         if (turn === human) {
+            setStatusBar(`PLAY AS ${human}:`);
+
             await new Promise(resolve => {
 
                 function handleClicks(i, j) {
@@ -67,23 +115,40 @@ async function gameLoop() {
 
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 3; j++) {
-                        handleClicks(i, j);
+                        if (board[i][j] === "") {
+                            handleClicks(i, j);
+                        }
                     }
                 }
             });
-            // flip the move
-            console.log("human move");
             turn = ai;
         }
         else {
+            setStatusBar("AI is thinking...");
+            await sleep(250);  // lol
             move(minimax(board));
-            console.log("ai move");
             turn = human;
         }
-    }
-    if (terminal(board)) {
-        console.log("game over. " + winner(board) + " wins");
-            // resetBoard();
+
+        // game over
+        if (terminal(board)) {
+            midGame = false;
+            const winnerr = winner(board);
+
+            if (winnerr === ai) {
+                setStatusBar("AI WON!");
+            }
+            else if (winnerr === null) {
+                setStatusBar("IT'S A TIE!");
+            }
+            else {
+                // lmao n3v3r gonna happen
+                setStatusBar("YOU WON!");
+            }
+
+            await sleep(2000);
+            await acceptRestart();
+        }
     }
 }
 
