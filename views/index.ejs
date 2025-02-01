@@ -1,12 +1,7 @@
-<html>
+<%- contentFor("title") %>
+Homepage
 
-<head>
-    <title>Home</title>
-</head>
-
-<body>
-    hello, world!<br>
-    <%=name%>
-</body>
-
-</html>
+<%- contentFor("body") %>
+<form action="/play">
+    <input type="submit" value="PLAY">
+</form>
