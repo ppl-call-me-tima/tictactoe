@@ -1,9 +1,32 @@
 <%- contentFor("title") %>
 Play
 <%- contentFor("links") %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="stylesheet" href="css/play.css">
 <%- contentFor("body") %>
-<h1>PLAY</h1>
-<div id="main-box">
 
+<div id="main-box">
+    <h1>PLAY</h1>
+
+    <div id="box">
+       
+        <div class="row g-0">
+            <div class="col"><button id="c00" onclick="but00()"></button></div>
+            <div class="col"><button id="c01" onclick="but01()"></button></div>
+            <div class="col"><button id="c02" onclick="but02()"></button></div>
+        </div>
+        <div class="row g-0">
+            <div class="col"><button id="c10" onclick="but10()"></button></div>
+            <div class="col"><button id="c11" onclick="but11()"></button></div>
+            <div class="col"><button id="c12" onclick="but12()"></button></div>
+        </div>
+        <div class="row g-0">
+            <div class="col"><button id="c20" onclick="but20()"></button></div>
+            <div class="col"><button id="c21" onclick="but21()"></button></div>
+            <div class="col"><button id="c22" onclick="but22()"></button></div>
+        </div>
+
+    </div>
 </div>
+
+<script src="javascript/script.js"></script>
