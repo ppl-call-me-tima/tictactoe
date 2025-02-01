@@ -1,8 +1,9 @@
 import express from "express";
 import expressLayouts from "express-ejs-layouts";
+import axios from "axios";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.static("src"));
 app.set("view engine", "ejs");
@@ -14,5 +15,9 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log("listening on port:", port)
+    console.log("listening on port: ", port)
 });
+
+setInterval(() => {
+    axios.get("https://tictactoe-5knv.onrender.com/");
+}, 600000);
