@@ -1,3 +1,5 @@
+const INF = 1000
+
 function player(board) {
     let empty_count = 0;
 
@@ -107,12 +109,62 @@ function utility(board) {
     else return 0;
 }
 
-function best_move_and_utility(board) {
+function bestMoveAndUtility(board) {
+    if (terminal(board)) return null;
 
+    const currentPlayer = player(board);
+    let bestMove = [];
+
+    if (currentPlayer === "X") {
+        var max_util = -INF;
+    }
+    else {
+        var min_util = +INF;
+    }
+
+    actions(board).forEach((action) => {
+
+        const next_board = result(board, action);
+
+        if (terminal(next_board)) {
+
+            const util = utility(next_board);
+
+            if (currentPlayer === "X" && util > max_util) {
+                max_util = util;
+                bestMove = action;
+            }
+            else if (currentPlayer === "O" && util < min_util) {
+                min_util = util;
+                bestMove = action;
+            }
+        }
+        else {
+            const ret = bestMoveAndUtility(next_board, action);
+            const nextBestMove = ret[0];
+            const nextBestUtil = ret[1];
+
+            if (currentPlayer === "X" && nextBestUtil > max_util) {
+                max_util = nextBestUtil;
+                bestMove = action;
+            }
+            else if (currentPlayer === "O" && nextBestUtil < min_util) {
+                min_util = nextBestUtil;
+                bestMove = action;
+            }
+        }
+
+    });
+    
+    const bestUtility = currentPlayer === "X" ? max_util : min_util;
+    return [bestMove, bestUtility];
 }
 
 export function minimax(board) {
+    const ret = bestMoveAndUtility(board);
 
+    if (ret === null) return null;
+    return ret[0];
 }
 
 export function result(board, action) {
@@ -132,3 +184,9 @@ export function result(board, action) {
 
     return next_board;
 }
+
+const board = [
+    ['X','O',''],
+    ['','O','X'],
+    ['','','X']
+];

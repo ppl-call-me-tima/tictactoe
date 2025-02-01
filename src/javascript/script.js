@@ -10,7 +10,11 @@ var board = [
     ['', '', '']
 ];
 
-function move(action) {
+function sleep(timeout) {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
+async function move(action) {
     const ret = result(board, action);
 
     if (ret === null) {
@@ -20,11 +24,6 @@ function move(action) {
 
     board = ret;
     updateBoard();
-
-    if (terminal(board)) {
-        console.log("game over. " + winner(board) + " wins");
-        resetBoard();
-    }
 }
 
 function updateBoard() {
@@ -44,19 +43,19 @@ function resetBoard() {
     updateBoard();
 }
 
+function removeEvents() {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById(`c${i}${j}`).onclick = null;
+        }
+    }
+}
+
 async function gameLoop() {
     while (!terminal(board)) {
         console.log("game loop iteration");
         if (turn === human) {
             await new Promise(resolve => {
-
-                function removeEvents() {
-                    for (let i = 0; i < 3; i++) {
-                        for (let j = 0; j < 3; j++) {
-                            document.getElementById(`c${i}${j}`).onclick = null;
-                        }
-                    }
-                }
 
                 function handleClicks(i, j) {
                     document.getElementById(`c${i}${j}`).onclick = () => {
@@ -77,10 +76,14 @@ async function gameLoop() {
             turn = ai;
         }
         else {
-            // move(minimax(board));
+            move(minimax(board));
             console.log("ai move");
             turn = human;
         }
+    }
+    if (terminal(board)) {
+        console.log("game over. " + winner(board) + " wins");
+            // resetBoard();
     }
 }
 
