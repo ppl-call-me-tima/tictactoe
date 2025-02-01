@@ -184,9 +184,3 @@ export function result(board, action) {
 
     return next_board;
 }
-
-const board = [
-    ['X','O',''],
-    ['','O','X'],
-    ['','','X']
-];
