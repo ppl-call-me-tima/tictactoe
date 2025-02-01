@@ -1,10 +1,10 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const path = require("path");
 
 const app = express();
 const port = 3000;
 
+app.use(express.static("src"));
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "layouts/main");

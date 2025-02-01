@@ -1,0 +1,8 @@
+#main-box {
+    position: fixed;
+    inset: 0px;
+    margin: auto;
+    height: 70vh;
+    aspect-ratio: 1/1;
+    border: 1px solid;
+}
