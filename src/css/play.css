@@ -1,8 +1,31 @@
 #main-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     inset: 0px;
     margin: auto;
-    height: 70vh;
+    height: 90vh;
+    width: 90vw;
+    border: 1px solid;
+}
+
+#box {
+    width: min(72vw, 72vh);
     aspect-ratio: 1/1;
     border: 1px solid;
+}
+
+.col {
+    aspect-ratio: 1/1;
+    border: 1px solid;
+}
+
+button {
+    height: 100%;
+    width: 100%;
+    background: none;
+    border: none;
+    box-shadow: none;
 }
