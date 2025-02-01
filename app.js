@@ -10,11 +10,7 @@ app.use(expressLayouts);
 app.set("layout", "layouts/main");
 
 app.get("/", (req, res) => {
-    res.render("index");
-});
-
-app.get("/play", (req, res) => {
-    res.render("play")
+    res.render("play");
 });
 
 app.listen(port, () => {
