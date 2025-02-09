@@ -11,7 +11,15 @@ app.use(expressLayouts);
 app.set("layout", "layouts/main");
 
 app.get("/", (req, res) => {
-    res.render("play");
+    res.render("index");
+});
+
+app.get("/tictactoe", (req, res) => {
+    res.render("tictactoe")
+});
+
+app.get("/super_tictactoe", (req, res) => {
+    res.render("super_tictactoe.ejs");
 });
 
 app.listen(port, () => {

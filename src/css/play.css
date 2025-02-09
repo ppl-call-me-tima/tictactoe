@@ -75,7 +75,7 @@
 }
 
 #box {
-    width: min(72vw, 72vh);
+    width: min(85vw, 85vh);
     aspect-ratio: 1/1;
     border: 1px solid;
 }
